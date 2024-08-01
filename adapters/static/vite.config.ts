@@ -1,8 +1,10 @@
 import { staticAdapter } from "@builder.io/qwik-city/adapters/static/vite";
 import { extendConfig } from "@builder.io/qwik-city/vite";
 import baseConfig from "../../vite.config";
+import {loadEnv} from "vite";
 
-export default extendConfig(baseConfig, () => {
+export default extendConfig(baseConfig, ({mode}) => {
+  const env = loadEnv(mode, process.cwd(), "");
   return {
     build: {
       ssr: true,
@@ -12,7 +14,7 @@ export default extendConfig(baseConfig, () => {
     },
     plugins: [
       staticAdapter({
-        origin: "http://localhost:9999",
+        origin: env.PUBLIC_ORIGIN_URL,
       }),
     ],
   };
